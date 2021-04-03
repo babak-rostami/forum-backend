@@ -21,6 +21,13 @@ Route::prefix('v1/')->group(function () {
         Route::post('login', [\App\Http\Controllers\API\V01\Auth\AuthController::class, 'login'])->name('auth.login');
         Route::post('logout', [\App\Http\Controllers\API\V01\Auth\AuthController::class, 'logout'])->name('auth.logout');
         Route::get('user', [\App\Http\Controllers\API\V01\Auth\AuthController::class, 'user'])->name('auth.user');
+
+        //Channel Routes
+        Route::get('channels', [\App\Http\Controllers\API\V01\Channel\ChannelController::class, 'all'])->name('channel.all');
+        Route::post('channel/store', [\App\Http\Controllers\API\V01\Channel\ChannelController::class, 'store'])->name('channel.store');
+        Route::put('channel/update', [\App\Http\Controllers\API\V01\Channel\ChannelController::class, 'update'])->name('channel.update');
+        Route::delete('channel/delete', [\App\Http\Controllers\API\V01\Channel\ChannelController::class, 'delete'])->name('channel.delete');
+
     });
 
 
