@@ -5,12 +5,34 @@ namespace Tests\Http\Controllers\API\V01\Auth;
 use App\Models\User;
 use Faker\Provider\Company;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class AuthControllerTest extends TestCase
 {
 
     use RefreshDatabase;
+
+    public function registerRoleAndPermissions()
+    {
+        if (Role::where('name', config('permission.defaul_rules')[0])->count() < 1) {
+            foreach (config('permission.defaul_rules') as $role) {
+                Role::create([
+                    'name' => $role
+                ]);
+            }
+        }
+
+        if (Permission::where('name', config('permission.default_permissions')[0])->count() < 1) {
+            foreach (config('permission.default_permissions') as $permission) {
+                Permission::create([
+                    'name' => $permission
+                ]);
+            }
+        }
+    }
+
 
     //test register
 
@@ -22,6 +44,8 @@ class AuthControllerTest extends TestCase
 
     public function test_new_user_register()
     {
+
+        $this->registerRoleAndPermissions();
         $response = $this->postJson(route('auth.register'), [
             'name' => "babak",
             'email' => "babak@gmail.com",
